@@ -9,6 +9,12 @@ module.exports = function (app, passport) {
         res.render('login.ejs', { message: req.flash('loginMessage') });
     });
 
+    app.post('/login', passport.authenticate('local-login', {
+        successRedirect: '/profile',
+        failureRedirect: '/login',
+        failureFlash: true
+    }));
+
     /* SIGN UP */
     app.get('/signup', function (req, res) {
         res.render('signup.ejs', { message: req.flash('signupMessage') });

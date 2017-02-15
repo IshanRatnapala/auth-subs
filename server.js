@@ -20,7 +20,7 @@ require('./config/passport')(passport);
 // SETUP EXPRESS
 app.use(morgan('dev'));
 app.use(cookieParser());
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.set('view engine', 'ejs');
 
@@ -37,5 +37,7 @@ app.use(flash());
 // ROUTES
 require('./app/routes')(app, passport);
 
-app.listen(port);
+app.listen(port, function () {
+    console.log('Express server started on port', port);
+});
 
