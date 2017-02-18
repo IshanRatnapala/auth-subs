@@ -48,7 +48,11 @@ module.exports = function (app, passport) {
     }));
 
     /* AUTHORIZE - LOCAL */
-    app.get('/connect/local', passport.authenticate('local-signup', {
+    app.get('/connect/local', function (req, res) {
+        res.render('connect-local.ejs', { message: req.flash('loginMessage') });
+    });
+
+    app.post('/connect/local', passport.authenticate('local-signup', {
         successRedirect: '/profile',
         failureRedirect: '/connect/local',
         failureFlash: true
