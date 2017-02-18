@@ -74,6 +74,35 @@ module.exports = function (app, passport) {
         failureRedirect: '/'
     }));
 
+    /* UNLINK - LOCAL */
+    app.get('/unlink/local', function (req, res) {
+        var user = req.user;
+        user.local.email = undefined;
+        user.local.password = undefined;
+        user.save(function (err) {
+            res.redirect('/profile');
+        });
+    });
+
+    /* UNLINK - FACEBOOK */
+    app.get('/unlink/local', function (req, res) {
+        var user = req.user;
+        user.facebook.token = undefined;
+        user.save(function (err) {
+            res.redirect('/profile');
+        });
+    });
+
+    /* UNLINK - GOOGLE */
+    app.get('/unlink/google', function (req, res) {
+        var user = req.user;
+        user.google.token = undefined;
+        user.save(function (err) {
+            res.redirect('/profile');
+        });
+    });
+
+
     /* LOGOUT */
     app.get('/logout', function (req, res) {
         req.logout();

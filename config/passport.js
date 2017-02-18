@@ -84,6 +84,19 @@ module.exports = function (passport) {
                             return done(err);
                         }
                         if (user) {
+                            if (!user.facebook.token) {
+                                user.facebook.token = token;
+                                user.facebook.name = profile.name.givenName + ' ' + profile.name.familyName;
+                                user.facebook.email = profile.emails[0].value;
+
+                                user.save(function (err) {
+                                    if (err) {
+                                        throw err;
+                                    }
+                                    return done(null, user);
+                                });
+                            }
+
                             return done(null, user);
                         } else {
 
@@ -137,6 +150,19 @@ module.exports = function (passport) {
                             return done(err);
                         }
                         if (user) {
+                            if (!user.google.token) {
+                                user.google.token = token;
+                                user.google.name = profile.displayName;
+                                user.google.email = profile.emails[0].value;
+
+                                user.save(function (err) {
+                                    if (err) {
+                                        throw err;
+                                    }
+                                    return done(null, user);
+                                });
+                            }
+console.log(user);
                             return done(null, user);
                         } else {
                             var newUser = new User();
