@@ -39,6 +39,37 @@ module.exports = function (app, passport) {
         failureRedirect: '/'
     }));
 
+    /* GOOGLE AUTHENTICATION */
+    app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+    app.get('/auth/google/callback', passport.authenticate('google', {
+        successRedirect: '/profile',
+        failureRedirect: '/'
+    }));
+
+    /* AUTHORIZE - LOCAL */
+    app.get('/connect/local', passport.authenticate('local-signup', {
+        successRedirect: '/profile',
+        failureRedirect: '/connect/local',
+        failureFlash: true
+    }));
+
+    /* AUTHORIZE - FACEBOOK */
+    app.get('/connect/facebook', passport.authorize('facebook', { scope: 'email' }));
+
+    app.get('/connect/facebook/callback', passport.authorize('facebook', {
+        successRedirect: '/profile',
+        failureRedirect: '/'
+    }));
+
+    /* AUTHORIZE - GOOGLE */
+    app.get('/connect/google', passport.authorize('google', { scope: ['profile', 'email'] }));
+
+    app.get('/connect/google/callback', passport.authorize('google', {
+        successRedirect: '/profile',
+        failureRedirect: '/'
+    }));
+
     /* LOGOUT */
     app.get('/logout', function (req, res) {
         req.logout();
